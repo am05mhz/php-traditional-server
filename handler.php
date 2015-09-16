@@ -47,6 +47,7 @@ class UploadHandler {
         $totalParts = isset($_REQUEST['qqtotalparts']) ? (int)$_REQUEST['qqtotalparts'] : 1;
 
         $target = join(DIRECTORY_SEPARATOR, array($uploadDirectory, $uuid, $name));
+        $filepath = $target;     //path for size check
         $this->uploadName = $name;
 
         if (!file_exists($target)){
@@ -68,6 +69,14 @@ class UploadHandler {
         }
 
         rmdir($targetFolder);
+        
+        //Size check
+        $size = filesize($filepath);
+        if ($size > $this->sizeLimit){
+            unlink($filepath);
+            rmdir(dirname($filepath));
+            return array('error' => 'File is too large.');
+        }
 
         return array("success" => true, "uuid" => $uuid);
     }
