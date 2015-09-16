@@ -54,6 +54,8 @@ if ($method == "POST") {
     // For example: /myserver/handlers/endpoint.php?done
     if (isset($_GET["done"])) {
         $result = $uploader->combineChunks("files");
+        if (isset($result["error"]))
+            header("HTTP/1.0 500 Internal Server Error");
     }
     // Handles upload requests
     else {
