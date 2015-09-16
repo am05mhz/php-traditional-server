@@ -112,6 +112,10 @@ class UploadHandler {
         // Get size and name
         $file = $_FILES[$this->inputName];
         $size = $file['size'];
+		if (isset($_REQUEST['qqtotalfilesize']))
+			$actualsize = $_REQUEST['qqtotalfilesize'];
+		else
+			$actualsize = $size;
 
         if ($name === null){
             $name = $this->getName();
@@ -123,11 +127,11 @@ class UploadHandler {
         }
 
         // Validate file size
-        if ($size == 0){
+        if ($actualsize == 0){
             return array('error' => 'File is empty.');
         }
 
-        if ($size > $this->sizeLimit){
+        if ($actualsize > $this->sizeLimit){
             return array('error' => 'File is too large.');
         }
 
