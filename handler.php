@@ -8,7 +8,7 @@
 
 class UploadHandler {
 
-    public $allowedExtensions = array();
+    public $allowedExtensions = [];
     public $sizeLimit = null;
     public $inputName = 'qqfile';
     public $chunksFolder = 'chunks';
@@ -113,21 +113,21 @@ class UploadHandler {
         $file = $_FILES[$this->inputName];
         $size = $file['size'];
 
-        if ($name === null){
+        if ($name === null) {
             $name = $this->getName();
         }
 
         // Validate name
-        if ($name === null || $name === ''){
+        if (empty($name)) {
             return array('error' => 'File name empty.');
         }
 
         // Validate file size
-        if ($size == 0){
+        if ($size === 0) {
             return array('error' => 'File is empty.');
         }
 
-        if ($size > $this->sizeLimit){
+        if ($size > $this->sizeLimit) {
             return array('error' => 'File is too large.');
         }
 
@@ -141,7 +141,7 @@ class UploadHandler {
         }
 
         // Save a chunk
-        $totalParts = isset($_REQUEST['qqtotalparts']) ? (int)$_REQUEST['qqtotalparts'] : 1;
+        $totalParts = isset($_REQUEST['qqtotalparts']) ? (int) $_REQUEST['qqtotalparts'] : 1;
 
         $uuid = $_REQUEST['qquuid'];
         if ($totalParts > 1){
@@ -240,7 +240,7 @@ class UploadHandler {
         $pathinfo = pathinfo($filename);
         $base = $pathinfo['filename'];
         $ext = isset($pathinfo['extension']) ? $pathinfo['extension'] : '';
-        $ext = $ext == '' ? $ext : '.' . $ext;
+        $ext = $ext === '' ? $ext : '.' . $ext;
 
         $unique = $base;
         $suffix = 0;
@@ -348,5 +348,4 @@ class UploadHandler {
     	$isWin = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
     	return $isWin;
     }
-
 }
